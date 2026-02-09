@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="A romantic Valentine's experience">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
+    <title>Pentru tine suflețel ❤️</title>
+    <style>
+        /* ============================================
+       PERSONALIZATION CONFIG - EDIT PHOTOS/TEXT IN JS BELOW
+       ============================================ */
+
+        :root {
+            --bg-gradient-1: #1a0a1e;
+            --bg-gradient-2: #2d1b36;
+            --bg-gradient-3: #4a2040;
+            --accent-pink: oklch(72.343% 0.18541 1.759);
+            --accent-rose: #c44569;
+            --accent-gold: #f8b500;
+            --text-light: #fff0f5;
+            --text-soft: #e8c4d0;
+            --shadow-glow: rgba(255, 107, 157, 0.4);
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --modal-bg: rgba(20, 10, 25, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'San Francisco', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-1) 0%, var(--bg-gradient-2) 50%, var(--bg-gradient-3) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Floating hearts background - subtle */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .heart-particle {
+            position: absolute;
+            bottom: -50px;
+            opacity: 0;
+            animation: floatUp 15s infinite ease-in-out;
+            font-size: 1.2rem;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            5% {
+                opacity: 0.15;
+            }
+
+            95% {
+                opacity: 0.15;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .heart-particle,
+            .floating-hearts {
+                animation: none;
+                display: none;
+            }
+
+            .screen,
+            .polaroid,
+            .btn,
+            .modal {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+
+        /* Screens */
+        .screen {
+            display: none;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(30px) scale(0.98);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            animation: screenSlideIn 0.6s ease-out;
+        }
+
+        .screen.fade-out {
+            opacity: 0;
+            transform: translateY(-30px) scale(0.95);
+            animation: screenSlideOut 0.4s ease-in forwards;
+        }
+
+        @keyframes screenSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes screenSlideOut {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-40px) scale(0.9);
+            }
+        }
+
+        /* Cover Screen */
+        #cover-screen {
+            text-align: center;
+        }
+
+        .cover-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #ff6b9d 50%, #ff8fab 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            filter: drop-shadow(0 0 20px rgba(255, 107, 157, 0.4));
+            animation: titleFadeIn 1.5s ease-out, shimmer 4s infinite ease-in-out;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+        }
+
+        @keyframes titleFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 20px rgba(255, 107, 157, 0.4));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 35px rgba(255, 107, 157, 0.7));
+            }
+        }
+
+        @keyframes gentlePulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.9;
+                transform: scale(1.02);
+            }
+        }
+
+        .cover-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-soft);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            font-style: italic;
+            animation: subtitleFadeIn 2s ease-out 0.3s both;
+            opacity: 0;
+        }
+
+        @keyframes subtitleFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #cover-screen .btn {
+            animation: buttonFadeIn 2s ease-out 0.6s both;
+        }
+
+        @keyframes buttonFadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .cover-decoration {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.3;
+            animation: sparkle 3s infinite ease-in-out;
+        }
+
+        .cover-decoration.top-left {
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .cover-decoration.top-right {
+            top: 20%;
+            right: 10%;
+            animation-delay: 1s;
+        }
+
+        .cover-decoration.bottom-left {
+            bottom: 25%;
+            left: 15%;
+            animation-delay: 0.5s;
+        }
+
+        .cover-decoration.bottom-right {
+            bottom: 20%;
+            right: 12%;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes sparkle {
+
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scale(1) rotate(0deg);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2) rotate(10deg);
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-rose) 100%);
+            border: none;
+            color: white;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 30px var(--shadow-glow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 54px;
+            font-weight: 500;
+        }
+
+        .btn:hover,
+        .btn:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px var(--shadow-glow);
+            outline: none;
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--accent-pink);
+            color: var(--accent-pink);
+        }
+
+        .btn-small {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* Memory Map Screen */
+        #memory-screen {
+            justify-content: flex-start;
+            padding-top: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            text-shadow: 0 0 20px var(--shadow-glow);
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.5rem;
+            max-width: 600px;
+            width: 100%;
+            padding: 1rem;
+        }
+
+        .memory-hint {
+            color: var(--text-soft);
+            font-size: 0.95rem;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+            opacity: 0.85;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 0.5rem;
+            padding-bottom: 2.5rem;
+            border-radius: 4px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transition: transform 0.4s ease, box-shadow 0.3s ease;
+            position: relative;
+            touch-action: manipulation;
+        }
+
+        .polaroid:nth-child(odd) {
+            transform: rotate(-3deg);
+        }
+
+        .polaroid:nth-child(even) {
+            transform: rotate(2deg);
+        }
+
+        .polaroid:nth-child(3n) {
+            transform: rotate(-1deg);
+        }
+
+        .polaroid:hover,
+        .polaroid:focus {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        .polaroid-img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            background: linear-gradient(135deg, #f0e6ea 0%, #e8d6dc 100%);
+            display: block;
+        }
+
+        .polaroid-label {
+            position: absolute;
+            bottom: 0.5rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #333;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+
+        /* Secret heart trigger */
+        .secret-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 54px;
+            height: 54px;
+            padding: 0;
+            margin: 0;
+            background: rgba(255, 107, 157, 0.2);
+            border: 1px solid rgba(255, 107, 157, 0.4);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            line-height: 54px;
+            vertical-align: middle;
+            animation: secretPulse 2.5s ease-in-out infinite;
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        .buttons-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @keyframes secretPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 15px rgba(255, 107, 157, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 25px rgba(255, 107, 157, 0.6);
+            }
+        }
+
+        .secret-container:hover {
+            background: rgba(255, 107, 157, 0.25);
+            transform: scale(1.05);
+            animation: none;
+        }
+
+        .secret-hint {
+            font-size: 0.85rem;
+            color: var(--accent-pink);
+            font-weight: 500;
+        }
+
+        .secret-heart {
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--modal-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            animation: modalFadeIn 0.4s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            0% {
+                opacity: 0;
+                backdrop-filter: blur(0px);
+            }
+
+            100% {
+                opacity: 1;
+                backdrop-filter: blur(8px);
+            }
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 1.5rem;
+            max-width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            text-align: center;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: scale(0.8) translateY(30px);
+            opacity: 0;
+            animation: modalZoomIn 0.5s ease-out 0.1s forwards;
+        }
+
+        @keyframes modalZoomIn {
+            0% {
+                transform: scale(0.7) translateY(40px);
+                opacity: 0;
+            }
+
+            70% {
+                transform: scale(1.02) translateY(-5px);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-overlay.active .modal-img {
+            animation: photoReveal 0.6s ease-out 0.2s both;
+        }
+
+        @keyframes photoReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) rotate(-2deg);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgb(255, 107, 157, 0.8);
+            border: none;
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s, transform 0.2s;
+            z-index: 110;
+            opacity: 1;
+            animation: closeButtonAppear 0.3s ease-out 0.2s both;
+        }
+
+        @keyframes closeButtonAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-img {
+            max-width: 100%;
+            max-height: 50vh;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-caption {
+            font-size: 1.3rem;
+            color: var(--accent-pink);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .modal-note {
+            font-size: 1rem;
+            color: var(--text-soft);
+            line-height: 1.8;
+            font-style: italic;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+        }
+
+        /* Message Section */
+        #message-screen {
+            text-align: center;
+            padding: 3rem 1.5rem;
+        }
+
+        .message-container {
+            max-width: 500px;
+        }
+
+        .message-text {
+            font-size: 1.1rem;
+            color: var(--text-soft);
+            line-height: 2;
+            margin-bottom: 2rem;
+        }
+
+        .message-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Valentine Screen */
+        #valentine-screen {
+            text-align: center;
+        }
+
+        .valentine-question {
+            font-size: 2.2rem;
+            margin-bottom: 2.5rem;
+            font-weight: 700;
+        }
+
+        .valentine-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            max-width: 300px;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        /* Response screens */
+        #yes-screen,
+        #wait-screen,
+        #secret-screen {
+            text-align: center;
+        }
+
+        .response-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .response-text {
+            font-size: 1.1rem;
+            color: var(--text-soft);
+            line-height: 1.8;
+            max-width: 400px;
+        }
+
+        .contact-section {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .contact-section p {
+            margin-bottom: 1rem;
+            color: var(--text-soft);
+        }
+
+        .contact-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .contact-buttons a {
+            text-decoration: none;
+            min-width: 200px;
+        }
+
+        /* Confetti celebration */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 200;
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confettiFall 4s ease-out forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100%) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Secret Screen */
+        .reasons-list {
+            text-align: left;
+            max-width: 350px;
+            margin: 2rem auto;
+        }
+
+        .reasons-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-soft);
+            list-style: none;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .reasons-list li::before {
+            content: '💕';
+            position: absolute;
+            left: 0;
+        }
+
+        /* Flip card coupon */
+        .flip-card {
+            perspective: 1000px;
+            width: 280px;
+            height: 160px;
+            margin: 2rem auto;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .flip-card-front {
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-rose) 100%);
+            color: white;
+        }
+
+        .flip-card-back {
+            background: linear-gradient(135deg, #ffb6c1 0%, #ff69b4 100%);
+            color: #4a0e2a;
+            transform: rotateY(180deg);
+            font-weight: 600;
+        }
+
+        .coupon-title {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .coupon-main {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        /* Soft letter modal */
+        .soft-letter {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+        }
+
+        .soft-letter p {
+            margin-bottom: 1rem;
+            line-height: 1.9;
+        }
+
+        /* Share section */
+        .share-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .share-section p {
+            font-size: 0.9rem;
+            color: var(--text-soft);
+            margin-bottom: 1rem;
+        }
+
+        /* Navigation hint */
+        .nav-hint {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.85rem;
+            color: var(--text-soft);
+            opacity: 0.6;
+        }
+
+        /* Music Button */
+        .music-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0.7;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 107, 157, 0.2);
+            opacity: 1;
+        }
+
+        @keyframes musicPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 107, 157, 0.3);
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px rgba(255, 107, 157, 0.6);
+            }
+        }
+
+        #youtube-player {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+            visibility: hidden;
+        }
+
+        /* Scroll padding for mobile */
+        @media (max-width: 480px) {
+            .screen {
+                padding: 1.5rem 1rem;
+            }
+
+            .cover-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .memory-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .message-text {
+                font-size: 1rem;
+            }
+        }
+
+        /* Accessibility - Focus styles */
+        .btn:focus-visible,
+        .polaroid:focus-visible,
+        .modal-close:focus-visible,
+        .flip-card:focus-visible {
+            outline: 3px solid var(--accent-gold);
+            outline-offset: 3px;
+        }
+
+        /* High contrast support */
+        @media (prefers-contrast: high) {
+            .btn {
+                border: 2px solid white;
+            }
+
+            .text-soft {
+                color: white;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Floating hearts background -->
+    <div class="floating-hearts" aria-hidden="true" id="hearts-container"></div>
+
+    <!-- Music Player -->
+    <div id="youtube-player"></div>
+    <button class="music-btn" id="music-toggle" aria-label="Toggle music">🎵</button>
+
+    <!-- ============================================
+       SCREEN 1: COVER
+       ============================================ -->
+    <section id="cover-screen" class="screen active" role="main">
+        <span class="cover-decoration top-left">✨</span>
+        <span class="cover-decoration top-right">💫</span>
+        <span class="cover-decoration bottom-left">💕</span>
+        <span class="cover-decoration bottom-right">✨</span>
+        <h1 class="cover-title">Bună, suflețelul meu mic și drag ❤️</h1>
+        <p class="cover-subtitle">Maimuțica ta a făcut ceva mic pentru tine.</p>
+        <button class="btn" id="open-btn" aria-label="Open your gift">Deschide-l</button>
+    </section>
+
+    <!-- ============================================
+       SCREEN 2: MEMORY MAP
+       ============================================ -->
+    <section id="memory-screen" class="screen" role="main">
+        <h2 class="section-title">Câteva momente dragi ✨</h2>
+        <p class="memory-hint">Apasă pe o poză ca să citești povestea ei 💕</p>
+        <div class="memory-grid" id="memory-grid" role="list">
+            <!-- Polaroids will be generated by JS -->
+        </div>
+
+        <div class="buttons-row">
+            <button class="btn continue-btn" id="to-message-btn" aria-label="Continue to message">
+                Continuă
+            </button>
+            <button class="secret-btn" id="secret-trigger" aria-label="Secret surprise" title="Pssst... apasă-mă!">
+                💗
+            </button>
+        </div>
+    </section>
+
+    <!-- ============================================
+       PHOTO MODAL
+       ============================================ -->
+    <div class="modal-overlay" id="photo-modal" role="dialog" aria-modal="true" aria-labelledby="modal-caption">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close" aria-label="Close photo">&times;</button>
+            <img src="" alt="Memory photo" class="modal-img" id="modal-img">
+            <h3 class="modal-caption" id="modal-caption"></h3>
+            <p class="modal-note" id="modal-note"></p>
+        </div>
+    </div>
+
+    <!-- ============================================
+       SCREEN 3: MAIN MESSAGE
+       ============================================ -->
+    <section id="message-screen" class="screen" role="main">
+        <div class="message-container">
+            <h2 class="section-title">O notă mică pentru inima ta 💌</h2>
+            <div class="message-text" id="main-message">
+                <!-- Message will be generated by JS -->
+            </div>
+            <button class="btn" id="to-valentine-btn" aria-label="Continue to Valentine question">
+                Încă ceva... 💕
+            </button>
+        </div>
+    </section>
+
+    <!-- ============================================
+       SCREEN 4: VALENTINE QUESTION
+       ============================================ -->
+    <section id="valentine-screen" class="screen" role="main">
+        <span class="cover-decoration top-left">✨</span>
+        <span class="cover-decoration top-right">💫</span>
+        <span class="cover-decoration bottom-left">💕</span>
+        <span class="cover-decoration bottom-right">✨</span>
+        <h2 class="cover-title valentine-question">Ți-a pus un zâmbet pe buze mini-surpriza mea? 💕</h2>
+        <div class="valentine-buttons">
+            <button class="btn" id="yes-btn" aria-label="Yes">Da ❤️</button>
+        </div>
+    </section>
+
+    <!-- ============================================
+       SCREEN 5A: YES RESPONSE
+       ============================================ -->
+    <section id="yes-screen" class="screen" role="main">
+        <h2 class="response-title">Yay! Așa da! ❤️</h2>
+        <p class="response-text" id="yes-message"></p>
+        <div class="contact-section">
+            <p>Hai să vorbim! 💕</p>
+            <div class="contact-buttons">
+                <a href="tel:+40761389550" class="btn btn-small" id="call-btn">📞 Sună-mă</a>
+                <a href="https://www.instagram.com/ionutcatalingiga/" target="_blank"
+                    class="btn btn-small btn-secondary" id="instagram-btn">💬 Scrie-mi pe Instagram</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+       SCREEN 6: SECRET SCREEN
+       ============================================ -->
+    <section id="secret-screen" class="screen" role="main">
+        <h2 class="section-title">Un mic secret... 🤫</h2>
+        <p class="response-text" style="margin-bottom: 1rem;">L-ai găsit! Iată ceva extra special...</p>
+
+        <h3 style="margin: 2rem 0 1rem; color: var(--accent-pink); font-weight: 700; font-size: 1.5rem;">10 Motive
+            Pentru Care Te Iubesc 💖</h3>
+        <ol class="reasons-list" id="reasons-list">
+            <!-- Reasons will be generated by JS -->
+        </ol>
+
+        <p style="margin: 2rem 0 1rem; color: var(--text-soft);">Și un mic cadou...</p>
+
+        <div class="flip-card" id="kiss-coupon" tabindex="0" role="button" aria-label="Tap to reveal kiss coupon">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <span class="coupon-title">✨ ATINGE PENTRU A DEZVĂLUI ✨</span>
+                    <span class="coupon-main">Cupon Special</span>
+                </div>
+                <div class="flip-card-back">
+                    <span class="coupon-title">Valabil oricând 💋</span>
+                    <span class="coupon-main">Un Pupic Lung și Dulce</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-secondary continue-btn" id="back-to-memories" aria-label="Go back to memories">
+            Înapoi la amintiri
+        </button>
+    </section>
+
+    <!-- Confetti container -->
+    <div class="confetti-container" id="confetti-container" aria-hidden="true"></div>
+
+    <script>
+        /* ============================================
+           PERSONALIZATION CONFIG - EDIT YOUR CONTENT HERE
+           ============================================ */
+        const config = {
+            // Your names
+            herName: "Deniii ✨",
+            myName: "Cătă",
+
+            // Photos for the memory grid
+            // Add your photo paths and personalize captions/notes
+            photos: [
+                {
+                    src: "photos/1.jpg",
+                    label: "Fețe nostime 😜",
+                    caption: "Când suntem nebuni împreună",
+                    note: "Asta suntem noi - doi nebuni care nu se iau prea în serios. Îmi place că pot fi eu însumi cu tine, că putem face fețe prostești și să râdem de orice."
+                },
+                {
+                    src: "photos/2.jpg",
+                    label: "Răsărit la mare 🌅",
+                    caption: "Noaptea nebună din Vama",
+                    note: "Nu am dormit toată noaptea. Am plecat să ne distrăm în Costinești, și după ne-am întors în Vama să prindem răsăritul împreună. A fost magic - tu, eu, marea și soarele care răsărea. Una din cele mai frumoase amintiri."
+                },
+                {
+                    src: "photos/3.jpg",
+                    label: "Seară specială ✨",
+                    caption: "Când am strălucit împreună",
+                    note: "Erai atât de frumoasă în seara aia. Mă simțeam cel mai norocos că eram lângă tine. Fiecare moment cu tine e ca o petrecere."
+                },
+                {
+                    src: "photos/4.jpg",
+                    label: "Aproape 🥰",
+                    caption: "Cel mai bun loc din lume",
+                    note: "Așa se simte acasă pentru mine - aproape de tine, unul lângă celălalt. Nu am nevoie de nimic altceva în lume când ești lângă mine."
+                },
+                {
+                    src: "photos/5.jpg",
+                    label: "Surpriză 💐",
+                    caption: "Flori pentru suflețelul meu",
+                    note: "Îmi place să te surprind, să văd zâmbetul ăla pe fața ta. Meriți toate florile din lume și mai multe."
+                },
+                {
+                    src: "photos/6.jpg",
+                    label: "Noi doi 💕",
+                    caption: "Împreună, mereu",
+                    note: "Nu contează unde suntem sau ce facem. Important e că suntem împreună. Tu și eu, asta e tot ce contează."
+                }
+            ],
+
+            // 10 reasons for the secret screen
+            reasons: [
+                "Felul în care zâmbești și râzi",
+                "Căldura ochilor tăi în care mă pierd",
+                "Iubirea pe care mi-o oferi și care mă face să mă simt iubit",
+                "Blândețea din vocea ta când ești somnoroasă",
+                "Cum faci ca și o zi plictisitoare să pară o aventură",
+                "Răbdarea ta cu mine, mereu",
+                "Felul în care îmi ții mâna fără să te gândești",
+                "Glumele tale care mă fac să râd și să uit de toate",
+                "Cât de în siguranță mă simt când sunt cu tine. Ești locul meu pe care am ajuns să îl numesc 'acasă'",
+                "Pur și simplu pentru că ești tu, și să fii tu e de ajuns. Mai mult decât de ajuns."
+            ],
+
+            // The main heartfelt message
+            mainMessage: `
+        <p>Vreau să știi ceva important, ceva de care am nevoie să auzi cu adevărat:</p>
+        <p><strong>Poți să-ți iei tot timpul de care ai nevoie.</strong></p>
+        <p>Nu există grabă aici. Nicio presiune. Nicio numărătoare inversă. Doar tu, mergând în ritmul tău, în timpul tău.</p>
+        <p>Te iubesc enorm de mult suflețel, și această iubire nu merge nicăieri. E răbdătoare. E blândă. Așteaptă.</p>
+        <p>Nu plec nicăieri. Voi fi chiar aici, iubindu-te în liniște, încurajându-te, crezând în tine chiar și atunci când tu uiți să crezi în tine.</p>
+        <p>Sunt atât de mândru de tine, de 'domnișorika' minunată care ai devenit. Ai trecut prin atâtea și totuși ești aici, puternică, frumoasă, iubitoare. Meriți tot respectul și toată admirația din lume. Te iubesc enorm de mult suflețel. 💗</p>
+      `,
+
+            // Yes response extra line
+            yesMessage: "Mă bucur enorm că ți-a plăcut mini-surpriza mea! Zâmbetul tău e tot ce îmi doresc. Te iubesc mult, suflețelul meu. 💕"
+        };
+
+        /* ============================================
+           APP LOGIC
+           ============================================ */
+
+        // DOM Elements
+        const screens = {
+            cover: document.getElementById('cover-screen'),
+            memory: document.getElementById('memory-screen'),
+            message: document.getElementById('message-screen'),
+            valentine: document.getElementById('valentine-screen'),
+            yes: document.getElementById('yes-screen'),
+            secret: document.getElementById('secret-screen')
+        };
+
+        const photoModal = document.getElementById('photo-modal');
+
+
+        // State
+        let secretTapCount = 0;
+        let secretTapTimer = null;
+
+        // Initialize app
+        function init() {
+            createFloatingHearts();
+            renderPhotos();
+            renderMessage();
+            renderReasons();
+            renderYesMessage();
+            attachEventListeners();
+        }
+
+        // Create subtle floating hearts
+        function createFloatingHearts() {
+            const container = document.getElementById('hearts-container');
+            const hearts = ['💕', '💗', '💖', '✨', '💫'];
+
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'heart-particle';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                // Use negative delays so some hearts are already mid-animation on page load
+                const duration = 15 + Math.random() * 10;
+                heart.style.animationDuration = duration + 's';
+                // Negative delay = heart starts partway through animation (already visible)
+                heart.style.animationDelay = (Math.random() * -duration) + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        // Render photo polaroids
+        function renderPhotos() {
+            const grid = document.getElementById('memory-grid');
+
+            config.photos.forEach((photo, index) => {
+                const polaroid = document.createElement('div');
+                polaroid.className = 'polaroid';
+                polaroid.setAttribute('role', 'listitem');
+                polaroid.setAttribute('tabindex', '0');
+                polaroid.setAttribute('aria-label', `View memory: ${photo.label}`);
+                polaroid.dataset.index = index;
+
+                polaroid.innerHTML = `
+          <img src="${photo.src}" alt="${photo.caption}" class="polaroid-img" 
+               onerror="this.style.background='linear-gradient(135deg, #f0e6ea 0%, #dcc4ca 100%)'; this.alt='Photo placeholder';">
+          <span class="polaroid-label">${photo.label}</span>
+        `;
+
+                grid.appendChild(polaroid);
+            });
+        }
+
+        // Render main message
+        function renderMessage() {
+            document.getElementById('main-message').innerHTML = config.mainMessage;
+        }
+
+        // Render reasons list
+        function renderReasons() {
+            const list = document.getElementById('reasons-list');
+            config.reasons.forEach(reason => {
+                const li = document.createElement('li');
+                li.textContent = reason;
+                list.appendChild(li);
+            });
+        }
+
+
+
+        // Render yes message
+        function renderYesMessage() {
+            document.getElementById('yes-message').textContent = config.yesMessage;
+        }
+
+        // Screen transitions
+        function showScreen(screenId) {
+            // Fade out current screen
+            const current = document.querySelector('.screen.active');
+            if (current) {
+                current.classList.add('fade-out');
+                setTimeout(() => {
+                    current.classList.remove('active', 'fade-out');
+                    // Show new screen
+                    const target = screens[screenId];
+                    if (target) {
+                        target.classList.add('active');
+                        target.scrollTo(0, 0);
+                        window.scrollTo(0, 0);
+                    }
+                }, 450);
+            }
+        }
+
+        // Open photo modal
+        function openPhotoModal(index) {
+            const photo = config.photos[index];
+            document.getElementById('modal-img').src = photo.src;
+            document.getElementById('modal-caption').textContent = photo.caption;
+            document.getElementById('modal-note').textContent = photo.note;
+            photoModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        function closeModal(modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Celebration confetti
+        function celebrate() {
+            const container = document.getElementById('confetti-container');
+            const colors = ['#ff6b9d', '#c44569', '#ffb6c1', '#f8b500', '#ff69b4', '#ffd1dc'];
+            const shapes = ['circle', 'square', 'heart'];
+
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+
+                const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                if (shape === 'circle') {
+                    confetti.style.borderRadius = '50%';
+                } else if (shape === 'heart') {
+                    confetti.textContent = '❤️';
+                    confetti.style.background = 'transparent';
+                }
+
+                container.appendChild(confetti);
+
+                // Cleanup after animation
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+
+        // Secret trigger handler
+        function handleSecretTap() {
+            secretTapCount++;
+
+            if (secretTapTimer) clearTimeout(secretTapTimer);
+
+            secretTapTimer = setTimeout(() => {
+                secretTapCount = 0;
+            }, 2000);
+
+            if (secretTapCount >= 1) {
+                secretTapCount = 0;
+                showScreen('secret');
+            }
+        }
+
+
+
+        // Event listeners
+        function attachEventListeners() {
+            // Cover -> Memory
+            document.getElementById('open-btn').addEventListener('click', () => showScreen('memory'));
+
+            // Memory -> Message
+            document.getElementById('to-message-btn').addEventListener('click', () => showScreen('message'));
+
+            // Message -> Valentine
+            document.getElementById('to-valentine-btn').addEventListener('click', () => showScreen('valentine'));
+
+            // Valentine responses
+            document.getElementById('yes-btn').addEventListener('click', () => {
+                showScreen('yes');
+                setTimeout(celebrate, 500);
+            });
+
+            // Photo polaroids
+            document.querySelectorAll('.polaroid').forEach(polaroid => {
+                polaroid.addEventListener('click', (e) => {
+                    openPhotoModal(parseInt(e.currentTarget.dataset.index));
+                });
+                polaroid.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openPhotoModal(parseInt(e.currentTarget.dataset.index));
+                    }
+                });
+            });
+
+            // Photo modal close
+            document.getElementById('modal-close').addEventListener('click', () => closeModal(photoModal));
+            photoModal.addEventListener('click', (e) => {
+                if (e.target === photoModal) closeModal(photoModal);
+            });
+
+            // Secret trigger
+            const secretHeart = document.getElementById('secret-trigger');
+            secretHeart.addEventListener('click', handleSecretTap);
+            secretHeart.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') handleSecretTap();
+            });
+
+            // Long press for secret (mobile)
+            let longPressTimer;
+            secretHeart.addEventListener('touchstart', () => {
+                longPressTimer = setTimeout(() => {
+                    showScreen('secret');
+                }, 1500);
+            });
+            secretHeart.addEventListener('touchend', () => clearTimeout(longPressTimer));
+            secretHeart.addEventListener('touchmove', () => clearTimeout(longPressTimer));
+
+            // Flip card
+            const flipCard = document.getElementById('kiss-coupon');
+            flipCard.addEventListener('click', () => flipCard.classList.toggle('flipped'));
+            flipCard.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    flipCard.classList.toggle('flipped');
+                }
+            });
+
+            // Back to memories
+            document.getElementById('back-to-memories').addEventListener('click', () => showScreen('memory'));
+
+            // Keyboard navigation for modals
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (photoModal.classList.contains('active')) closeModal(photoModal);
+                }
+            });
+        }
+
+        // Music Player Logic
+        let player;
+        let isMusicPlaying = false;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                height: '0',
+                width: '0',
+                videoId: '8p4TcI-RHNQ',
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'loop': 1,
+                    'playlist': '8p4TcI-RHNQ' // Required for loop to work
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // Attempt to play immediately
+            player.playVideo();
+            isMusicPlaying = true;
+            updateMusicButton();
+
+            // Fallback: play on first interaction if autoplay was blocked
+            document.body.addEventListener('click', function () {
+                if (player && player.getPlayerState() !== YT.PlayerState.PLAYING) {
+                    player.playVideo();
+                    isMusicPlaying = true;
+                    updateMusicButton();
+                }
+            }, { once: true });
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.PLAYING) {
+                isMusicPlaying = true;
+            } else if (event.data === YT.PlayerState.PAUSED) {
+                isMusicPlaying = false;
+            }
+            updateMusicButton();
+        }
+
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                player.pauseVideo();
+            } else {
+                player.playVideo();
+            }
+        }
+
+        function updateMusicButton() {
+            const btn = document.getElementById('music-toggle');
+            if (isMusicPlaying) {
+                btn.style.opacity = '1';
+                btn.style.animation = 'musicPulse 2s infinite';
+            } else {
+                btn.style.opacity = '0.7';
+                btn.style.animation = 'none';
+            }
+        }
+
+        // Load YouTube IFrame API
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        document.getElementById('music-toggle').addEventListener('click', toggleMusic);
+
+        // Start the app
+        init();
+    </script>
+</body>
+
+</html>
