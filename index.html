@@ -1340,6 +1340,13 @@
             document.getElementById('modal-img').src = photo.src;
             document.getElementById('modal-caption').textContent = photo.caption;
             document.getElementById('modal-note').textContent = photo.note;
+
+            // Force animation reset
+            const content = photoModal.querySelector('.modal-content');
+            content.style.animation = 'none';
+            content.offsetHeight; /* trigger reflow */
+            content.style.animation = ''; // Revert to CSS animation
+
             photoModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
