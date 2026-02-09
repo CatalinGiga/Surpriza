@@ -5,7 +5,7 @@ const SecretScreen = ({ onBack }) => {
     const [isFlipped, setIsFlipped] = useState(false);
 
     return (
-        <section id="secret-screen" className="screen active" role="main">
+        <section id="secret-screen" className="screen active" role="main" style={{ justifyContent: 'flex-start', paddingTop: '3rem' }}>
             <h2 className="section-title">Un mic secret... 🤫</h2>
             <p className="response-text" style={{ marginBottom: '1rem' }}>L-ai găsit! Iată ceva extra special...</p>
 

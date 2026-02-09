@@ -6,7 +6,7 @@ const MemoryScreen = ({ onNext, onSecret }) => {
     const [selectedPhoto, setSelectedPhoto] = useState(null);
 
     return (
-        <section id="memory-screen" className="screen active" role="main">
+        <section id="memory-screen" className="screen active" role="main" style={{ justifyContent: 'flex-start', paddingTop: '3rem' }}>
             <h2 className="section-title">Câteva momente dragi ✨</h2>
             <p className="memory-hint">Apasă pe o poză ca să citești povestea ei 💕</p>
 

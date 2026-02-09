@@ -1,3 +1,6 @@
+// Get base URL from Vite
+const base = import.meta.env.BASE_URL;
+
 export const config = {
     // Your names
     herName: "Deniii ✨",
@@ -6,37 +9,37 @@ export const config = {
     // Photos for the memory grid
     photos: [
         {
-            src: "/photos/1.jpg",
+            src: `${base}photos/1.jpg`,
             label: "Fețe nostime 😜",
             caption: "Când suntem nebuni împreună",
             note: "Asta suntem noi - doi nebuni care nu se iau prea în serios. Îmi place că pot fi eu însumi cu tine, că putem face fețe prostești și să râdem de orice."
         },
         {
-            src: "/photos/2.jpg",
+            src: `${base}photos/2.jpg`,
             label: "Răsărit la mare 🌅",
             caption: "Noaptea nebună din Vama",
             note: "Nu am dormit toată noaptea. Am plecat să ne distrăm în Costinești, și după ne-am întors în Vama să prindem răsăritul împreună. A fost magic - tu, eu, marea și soarele care răsărea. Una din cele mai frumoase amintiri."
         },
         {
-            src: "/photos/3.jpg",
+            src: `${base}photos/3.jpg`,
             label: "Seară specială ✨",
             caption: "Când am strălucit împreună",
             note: "Erai atât de frumoasă în seara aia. Mă simțeam cel mai norocos că eram lângă tine. Fiecare moment cu tine e ca o petrecere."
         },
         {
-            src: "/photos/4.jpg",
+            src: `${base}photos/4.jpg`,
             label: "Aproape 🥰",
             caption: "Cel mai bun loc din lume",
             note: "Așa se simte acasă pentru mine - aproape de tine, unul lângă celălalt. Nu am nevoie de nimic altceva în lume când ești lângă mine."
         },
         {
-            src: "/photos/5.jpg",
+            src: `${base}photos/5.jpg`,
             label: "Surpriză 💐",
             caption: "Flori pentru suflețelul meu",
             note: "Îmi place să te surprind, să văd zâmbetul ăla pe fața ta. Meriți toate florile din lume și mai multe."
         },
         {
-            src: "/photos/6.jpg",
+            src: `${base}photos/6.jpg`,
             label: "Noi doi 💕",
             caption: "Împreună, mereu",
             note: "Nu contează unde suntem sau ce facem. Important e că suntem împreună. Tu și eu, asta e tot ce contează."

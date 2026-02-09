@@ -18,10 +18,17 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: auto;
+}
+
 html,
 body {
-  height: 100%;
+  height: auto;
+  min-height: 100%;
   overflow-x: hidden;
+  overflow-y: auto;
+  padding-top: env(safe-area-inset-top, 0);
 }
 
 body {
@@ -512,7 +519,7 @@ body {
 .modal-close {
   position: absolute;
   top: 1rem;
-  right: 1rem;
+  left: 1rem;
   background: rgb(255, 107, 157, 0.8);
   border: none;
   color: white;

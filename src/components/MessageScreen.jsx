@@ -3,7 +3,7 @@ import { config } from '../data';
 
 const MessageScreen = ({ onNext }) => {
     return (
-        <section id="message-screen" className="screen active" role="main">
+        <section id="message-screen" className="screen active" role="main" style={{ justifyContent: 'flex-start', paddingTop: '3rem' }}>
             <div className="message-container">
                 <h2 className="section-title">O notă mică pentru inima ta 💌</h2>
                 <div

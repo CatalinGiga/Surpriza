@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import MusicPlayer from './components/MusicPlayer';
 import CoverScreen from './components/CoverScreen';
 import MemoryScreen from './components/MemoryScreen';
@@ -10,8 +10,30 @@ import SecretScreen from './components/SecretScreen';
 function App() {
   const [currentScreen, setCurrentScreen] = useState('cover');
   const [musicStarted, setMusicStarted] = useState(false);
+  const audioRef = useRef(null);
+
+  // Scroll to top whenever screen changes
+  useEffect(() => {
+    const scrollToTop = () => {
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    };
+    
+    scrollToTop();
+    // Multiple attempts for mobile browsers
+    requestAnimationFrame(scrollToTop);
+    setTimeout(scrollToTop, 0);
+    setTimeout(scrollToTop, 50);
+    setTimeout(scrollToTop, 100);
+    setTimeout(scrollToTop, 200);
+  }, [currentScreen]);
 
   const handleStart = () => {
+    // Play audio directly from click handler (required for mobile)
+    if (audioRef.current) {
+      audioRef.current.play().catch(e => console.log('Play failed:', e));
+    }
     setMusicStarted(true);
     setCurrentScreen('memory');
   };
@@ -53,7 +75,7 @@ function App() {
         ))}
       </div>
 
-      <MusicPlayer shouldPlay={musicStarted} />
+      <MusicPlayer shouldPlay={musicStarted} audioRef={audioRef} />
 
       {renderScreen()}
     </>
