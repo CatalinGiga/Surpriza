@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import PasswordScreen from './components/PasswordScreen';
 import MusicPlayer from './components/MusicPlayer';
 import CoverScreen from './components/CoverScreen';
 import MemoryScreen from './components/MemoryScreen';
@@ -8,7 +9,7 @@ import YesScreen from './components/YesScreen';
 import SecretScreen from './components/SecretScreen';
 
 function App() {
-  const [currentScreen, setCurrentScreen] = useState('cover');
+  const [currentScreen, setCurrentScreen] = useState('password');
   const [musicStarted, setMusicStarted] = useState(false);
   const audioRef = useRef(null);
 
@@ -40,6 +41,8 @@ function App() {
 
   const renderScreen = () => {
     switch (currentScreen) {
+      case 'password':
+        return <PasswordScreen onSuccess={() => setCurrentScreen('cover')} />;
       case 'cover':
         return <CoverScreen onNext={handleStart} />;
       case 'memory':
