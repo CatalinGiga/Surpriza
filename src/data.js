@@ -1,6 +1,32 @@
 // Get base URL from Vite
 const base = import.meta.env.BASE_URL;
 
+// ─── Chapter definitions (the Memory Tree) ─────────────────────────
+// type: 'original' → uses the original Cover→Photos→Message→Valentine→Yes flow
+// type: 'letter'   → a love letter with optional photos
+// type: 'photos'   → a photo gallery with captions
+// type: 'custom'   → fully custom JSX (defined in component)
+// ────────────────────────────────────────────────────────────────────
+
+export const chapters = [
+    {
+        id: 'chapter-1',
+        chapterNumber: 1,
+        title: 'Surpriza originală',
+        emoji: '💝',
+        teaser: 'Unde totul a început... prima surpriză făcută cu toată inima.',
+        type: 'original',
+        date: '2026-04-04',
+        unlockDate: '2026-04-04',
+        music: `${base}music.mp3`,
+    },
+
+];
+
+// ─── Ambient lobby music ────────────────────────────────────────────
+export const ambientMusic = `${base}ambient.mp3`;
+
+// ─── Original surprise config (used by Chapter 1) ──────────────────
 export const config = {
     // Your names
     herName: "Deniii ✨",
@@ -60,7 +86,6 @@ export const config = {
         "Pur și simplu pentru că ești tu, și să fii tu e de ajuns. Mai mult decât de ajuns."
     ],
 
-    // The main heartfelt message (HTML inside strings is tricky in React, better to use JSX, but for now string is fine with dangerouslySetInnerHTML layout)
     mainMessage: `
       <p>Vreau să știi ceva important, ceva de care am nevoie să auzi cu adevărat:</p>
       <p><strong>Poți să-ți iei tot timpul de care ai nevoie.</strong></p>
@@ -70,6 +95,5 @@ export const config = {
       <p>Sunt atât de mândru de tine, de 'domnișorika' minunată care ai devenit. Ai trecut prin atâtea și totuși ești aici, puternică, frumoasă, iubitoare. Meriți tot respectul și toată admirația din lume. Te iubesc enorm de mult suflețel. 💗</p>
   `,
 
-    // Yes response extra line
     yesMessage: "Mă bucur enorm că ți-a plăcut mini-surpriza mea! Zâmbetul tău e tot ce îmi doresc. Te iubesc mult, suflețelul meu. 💕"
 };

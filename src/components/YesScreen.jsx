@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { config } from '../data';
 
-const YesScreen = () => {
+const YesScreen = ({ onBackToTree }) => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -22,7 +22,6 @@ const YesScreen = () => {
             }
 
             const particleCount = 50 * (timeLeft / duration);
-            // since particles fall down, start a bit higher than random
             confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
             confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
         }, 250);
@@ -42,6 +41,17 @@ const YesScreen = () => {
                         className="btn btn-small btn-secondary">💬 Scrie-mi pe Instagram</a>
                 </div>
             </div>
+
+            {/* Back to Memory Tree */}
+            {onBackToTree && (
+                <button
+                    className="btn btn-secondary back-to-tree-btn"
+                    onClick={onBackToTree}
+                    style={{ marginTop: '2.5rem' }}
+                >
+                    🌿 Înapoi la Grădină
+                </button>
+            )}
         </section>
     );
 };

@@ -1,17 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PasswordScreen from './components/PasswordScreen';
 import MusicPlayer from './components/MusicPlayer';
+import MemoryTreeScreen from './components/MemoryTreeScreen';
 import CoverScreen from './components/CoverScreen';
 import MemoryScreen from './components/MemoryScreen';
 import MessageScreen from './components/MessageScreen';
 import ValentineScreen from './components/ValentineScreen';
 import YesScreen from './components/YesScreen';
 import SecretScreen from './components/SecretScreen';
+import ChapterScreen from './components/ChapterScreen';
+import { ambientMusic } from './data';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('password');
+  const [selectedChapter, setSelectedChapter] = useState(null);
+  const [musicSrc, setMusicSrc] = useState(null);
   const [musicStarted, setMusicStarted] = useState(false);
   const audioRef = useRef(null);
+  const ambientRef = useRef(null);
 
   // Scroll to top whenever screen changes
   useEffect(() => {
@@ -22,7 +28,6 @@ function App() {
     };
     
     scrollToTop();
-    // Multiple attempts for mobile browsers
     requestAnimationFrame(scrollToTop);
     setTimeout(scrollToTop, 0);
     setTimeout(scrollToTop, 50);
@@ -30,8 +35,33 @@ function App() {
     setTimeout(scrollToTop, 200);
   }, [currentScreen]);
 
-  const handleStart = () => {
-    // Play audio directly from click handler (required for mobile)
+  // Ambient music for the tree lobby
+  useEffect(() => {
+    if (currentScreen === 'tree' && ambientRef.current) {
+      ambientRef.current.volume = 0.3;
+      ambientRef.current.play().catch(e => console.log('Ambient play failed:', e));
+    } else if (ambientRef.current) {
+      ambientRef.current.pause();
+    }
+  }, [currentScreen]);
+
+  // When entering a chapter, set up its music and stop ambient
+  const handleSelectChapter = (chapter) => {
+    setSelectedChapter(chapter);
+
+    if (chapter.type === 'original') {
+      // For the original flow, go to its cover screen
+      setMusicSrc(chapter.music);
+      setCurrentScreen('cover');
+    } else {
+      // For custom chapters, go to the chapter screen
+      setMusicSrc(chapter.music);
+      setCurrentScreen('chapter');
+    }
+  };
+
+  const handleStartOriginalFlow = () => {
+    // Play chapter music directly from click handler (for mobile)
     if (audioRef.current) {
       audioRef.current.play().catch(e => console.log('Play failed:', e));
     }
@@ -39,12 +69,26 @@ function App() {
     setCurrentScreen('memory');
   };
 
+  const handleBackToTree = () => {
+    // Stop chapter music, go back to tree
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setMusicStarted(false);
+    setMusicSrc(null);
+    setSelectedChapter(null);
+    setCurrentScreen('tree');
+  };
+
   const renderScreen = () => {
     switch (currentScreen) {
       case 'password':
-        return <PasswordScreen onSuccess={() => setCurrentScreen('cover')} />;
+        return <PasswordScreen onSuccess={() => setCurrentScreen('tree')} />;
+      case 'tree':
+        return <MemoryTreeScreen onSelectChapter={handleSelectChapter} />;
       case 'cover':
-        return <CoverScreen onNext={handleStart} />;
+        return <CoverScreen onNext={handleStartOriginalFlow} onBack={handleBackToTree} />;
       case 'memory':
         return <MemoryScreen onNext={() => setCurrentScreen('message')} onSecret={() => setCurrentScreen('secret')} />;
       case 'message':
@@ -52,11 +96,13 @@ function App() {
       case 'valentine':
         return <ValentineScreen onYes={() => setCurrentScreen('yes')} />;
       case 'yes':
-        return <YesScreen />;
+        return <YesScreen onBackToTree={handleBackToTree} />;
       case 'secret':
         return <SecretScreen onBack={() => setCurrentScreen('memory')} />;
+      case 'chapter':
+        return <ChapterScreen chapter={selectedChapter} onBack={handleBackToTree} />;
       default:
-        return <CoverScreen onNext={() => setCurrentScreen('memory')} />;
+        return <MemoryTreeScreen onSelectChapter={handleSelectChapter} />;
     }
   };
 
@@ -78,7 +124,16 @@ function App() {
         ))}
       </div>
 
-      <MusicPlayer shouldPlay={musicStarted} audioRef={audioRef} />
+      {/* Ambient lobby music */}
+      <audio
+        ref={ambientRef}
+        src={ambientMusic}
+        loop
+        preload="auto"
+      />
+
+      {/* Chapter-specific music */}
+      <MusicPlayer shouldPlay={musicStarted} audioRef={audioRef} musicSrc={musicSrc} />
 
       {renderScreen()}
     </>

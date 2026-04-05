@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from 'react';
 
-const MusicPlayer = ({ shouldPlay, audioRef }) => {
+const MusicPlayer = ({ shouldPlay, audioRef, musicSrc }) => {
     const [isPlaying, setIsPlaying] = useState(false);
+
+    // Update audio source when musicSrc changes
+    useEffect(() => {
+        if (audioRef.current && musicSrc) {
+            const wasPlaying = !audioRef.current.paused;
+            audioRef.current.src = musicSrc;
+            if (wasPlaying || shouldPlay) {
+                audioRef.current.play().catch(e => console.log('Play failed:', e));
+            }
+        }
+    }, [musicSrc]);
 
     useEffect(() => {
         if (!audioRef.current) return;
@@ -30,13 +41,11 @@ const MusicPlayer = ({ shouldPlay, audioRef }) => {
         }
     };
 
-    const base = import.meta.env.BASE_URL;
-
     return (
         <>
             <audio
                 ref={audioRef}
-                src={`${base}music.mp3`}
+                src={musicSrc || ''}
                 loop
                 preload="auto"
             />
