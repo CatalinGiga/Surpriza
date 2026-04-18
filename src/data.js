@@ -20,6 +20,32 @@ export const chapters = [
         unlockDate: '2026-04-04',
         music: `${base}music.mp3`,
     },
+    // chapter placeholder
+    {
+        id: 'chapter-2',
+        chapterNumber: 2,
+        title: 'O mică scrisoare',
+        emoji: '💌',
+        teaser: 'Pentru că mă gândeam la tine...',
+        type: 'letter',
+        date: '2026-04-05',
+        unlockDate: '2026-04-05',
+        music: `${base}music.mp3`,
+        content: {
+            title: 'Pentru suflețelul meu drag',
+            message: `
+                <p>Voiam doar să las asta aici, să o citești când ai nevoie de o îmbrățișare.</p>
+                <p>Chiar și în zilele obișnuite, prezența ta face ca totul să fie de o mie de ori mai frumos. Ești o persoană minunată, plină de lumină și căldură.</p>
+                <p>Sunt cel mai norocos că te am alături. Nu uita să zâmbești azi! Te iubesc enorm. 💕</p>
+            `,
+            photos: [
+                {
+                    src: `${base}photos/4.jpg`,
+                    caption: "Aproape de tine"
+                }
+            ]
+        }
+    },
 
 ];
 
