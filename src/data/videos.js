@@ -6,13 +6,25 @@ export const videos = [
   {
     id: 1,
     title: "La mulți ani, Deniii! 🎂💖",
-    description: "Un video special cu cele mai frumoase poze ale noastre, pentru cea mai specială zi a ta. La mulți ani, sufletul meu! 🥳✨",
+    description: "Un video special cu cele mai frumoase poze ale noastre, pentru cea mai specială zi a ta. La mulți ani, suflețelul meu! 🥳✨",
     thumbnail: `${base}thumbnails/lmaDeniii2025.png`,
     videoUrl: `${base}videos/ZiNastereDeniii2025.MP4`,
     category: "Milestones",
     date: "2025-09-19",
     duration: "2:55",
     tags: ["birthday", "milestone", "2025"],
+    featured: true
+  },
+  {
+    id: 2,
+    title: "My 2025 with you",
+    description: "Câteva din cele mai faine amintiri din 2025 alături de iubirica mea 💖",
+    thumbnail: `${base}thumbnails/revelion2025_2026.png`,
+    videoUrl: `${base}videos/revelion2025_2026.MP4`,
+    category: "Milestones",
+    date: "2025-12-31",
+    duration: "0:23",
+    tags: ["revelion", "milestone", "2025"],
     featured: true
   }
 ];
