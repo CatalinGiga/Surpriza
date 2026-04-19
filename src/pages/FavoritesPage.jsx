@@ -1,5 +1,6 @@
 import React from 'react';
 import { videos } from '../data/videos';
+import { HeartFilled, HeartBrokenRegular } from '@fluentui/react-icons';
 
 const FavoritesPage = ({ favorites, onToggleFav, onMoreInfo }) => {
   const favVideos = videos.filter(v => favorites.includes(v.id));
@@ -31,7 +32,7 @@ const FavoritesPage = ({ favorites, onToggleFav, onMoreInfo }) => {
                   onClick={(e) => { e.stopPropagation(); onToggleFav(video.id); }}
                   title="Remove from favorites"
                 >
-                  ❤️
+                  <HeartFilled fontSize={16} />
                 </button>
               </div>
               <div className="browse-card__body">
@@ -47,7 +48,7 @@ const FavoritesPage = ({ favorites, onToggleFav, onMoreInfo }) => {
         </div>
       ) : (
         <div className="favorites-page__empty">
-          <div className="favorites-page__empty-heart">💔</div>
+          <div className="favorites-page__empty-heart"><HeartBrokenRegular fontSize={48} /></div>
           <div className="favorites-page__empty-text">No favorites yet</div>
           <div className="favorites-page__empty-sub">
             Click the ❤️ on any video to add it here

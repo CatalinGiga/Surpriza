@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
 import { videos } from '../data/videos';
+import {
+  PlayFilled,
+  HeartFilled,
+  HeartRegular,
+  DismissRegular,
+} from '@fluentui/react-icons';
 
 const VideoModal = ({ video, onClose, onPlay, onToggleFav, isFavorite, onSelectVideo }) => {
   useEffect(() => {
@@ -38,17 +44,19 @@ const VideoModal = ({ video, onClose, onPlay, onToggleFav, isFavorite, onSelectV
             <h2 className="video-modal__preview-title">{video.title}</h2>
             <div className="video-modal__preview-buttons">
               <button className="btn-netflix btn-netflix--play" onClick={() => onPlay(video)}>
-                <span className="btn-icon">▶</span> Play
+                <PlayFilled fontSize={18} /> Play
               </button>
               <button
                 className={`btn-netflix ${isFavorite ? 'btn-netflix--red' : 'btn-netflix--info'}`}
                 onClick={() => onToggleFav(video.id)}
               >
-                {isFavorite ? '❤️ Favorited' : '🤍 Favorite'}
+                {isFavorite ? <><HeartFilled fontSize={16} /> Favorited</> : <><HeartRegular fontSize={16} /> Favorite</>}
               </button>
             </div>
           </div>
-          <button className="video-modal__close" onClick={onClose}>✕</button>
+          <button className="video-modal__close" onClick={onClose}>
+            <DismissRegular fontSize={20} />
+          </button>
         </div>
 
         {/* Body */}
@@ -85,7 +93,6 @@ const VideoModal = ({ video, onClose, onPlay, onToggleFav, isFavorite, onSelectV
                       loading="lazy"
                       onError={(e) => {
                         e.target.style.display = 'none';
-                        e.target.parentElement.querySelector('.video-modal__related-info').style.borderTop = '1px solid var(--sf-border)';
                       }}
                     />
                     <div className="video-modal__related-info">

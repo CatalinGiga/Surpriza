@@ -1,5 +1,17 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { videos } from '../data/videos';
+import {
+  PlayFilled,
+  PauseFilled,
+  RewindRegular,
+  FastForwardRegular,
+  SpeakerMuteRegular,
+  Speaker1Regular,
+  Speaker2Regular,
+  FullScreenMaximizeRegular,
+  ArrowLeftRegular,
+  VideoRegular,
+} from '@fluentui/react-icons';
 
 const VideoPlayer = ({ video, onClose, onUpdateProgress, initialTime }) => {
   const videoRef = useRef(null);
@@ -155,7 +167,7 @@ const VideoPlayer = ({ video, onClose, onUpdateProgress, initialTime }) => {
           />
         ) : (
           <div className="video-player__placeholder">
-            <div className="video-player__placeholder-icon">🎬</div>
+            <div className="video-player__placeholder-icon"><VideoRegular fontSize={64} /></div>
             <div className="video-player__placeholder-text">
               <strong>{video.title}</strong>
               <br /><br />
@@ -169,7 +181,7 @@ const VideoPlayer = ({ video, onClose, onUpdateProgress, initialTime }) => {
         {/* Top controls */}
         <div className="video-player__top-controls" onClick={e => e.stopPropagation()}>
           <button className="video-player__back-btn" onClick={onClose}>
-            ← <span className="video-player__title">{video.title}</span>
+            <ArrowLeftRegular fontSize={20} /> <span className="video-player__title">{video.title}</span>
           </button>
         </div>
 
@@ -188,13 +200,13 @@ const VideoPlayer = ({ video, onClose, onUpdateProgress, initialTime }) => {
             <div className="video-player__buttons">
               <div className="video-player__buttons-left">
                 <button className="video-player__btn" onClick={togglePlay}>
-                  {isPlaying ? '⏸' : '▶'}
+                  {isPlaying ? <PauseFilled fontSize={20} /> : <PlayFilled fontSize={20} />}
                 </button>
-                <button className="video-player__btn" onClick={() => skip(-10)}>⏪</button>
-                <button className="video-player__btn" onClick={() => skip(10)}>⏩</button>
+                <button className="video-player__btn" onClick={() => skip(-10)}><RewindRegular fontSize={20} /></button>
+                <button className="video-player__btn" onClick={() => skip(10)}><FastForwardRegular fontSize={20} /></button>
                 <div className="video-player__volume-wrapper">
                   <button className="video-player__btn" onClick={toggleMute}>
-                    {isMuted || volume === 0 ? '🔇' : volume < 0.5 ? '🔉' : '🔊'}
+                    {isMuted || volume === 0 ? <SpeakerMuteRegular fontSize={20} /> : volume < 0.5 ? <Speaker1Regular fontSize={20} /> : <Speaker2Regular fontSize={20} />}
                   </button>
                   <input
                     type="range"
@@ -211,7 +223,7 @@ const VideoPlayer = ({ video, onClose, onUpdateProgress, initialTime }) => {
                 </span>
               </div>
               <div className="video-player__buttons-right">
-                <button className="video-player__btn" onClick={toggleFullscreen}>⛶</button>
+                <button className="video-player__btn" onClick={toggleFullscreen}><FullScreenMaximizeRegular fontSize={20} /></button>
               </div>
             </div>
           </div>
@@ -225,7 +237,7 @@ const VideoPlayer = ({ video, onClose, onUpdateProgress, initialTime }) => {
               onClick={onClose}
               style={{ background: 'rgba(0,0,0,.5)', borderRadius: '4px', padding: '8px 16px' }}
             >
-              ← Back
+              <ArrowLeftRegular fontSize={18} /> Back
             </button>
           </div>
         )}

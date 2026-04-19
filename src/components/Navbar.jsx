@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { profiles } from '../data/videos';
+import { SearchRegular } from '@fluentui/react-icons';
 
 const Navbar = ({ onSearchOpen }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -50,7 +51,7 @@ const Navbar = ({ onSearchOpen }) => {
 
       <div className="navbar__right">
         <button className="navbar__search-btn" onClick={onSearchOpen} aria-label="Search">
-          🔍
+          <SearchRegular fontSize={20} />
         </button>
         <div className="navbar__profiles">
           {profiles.map(p => (

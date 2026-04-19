@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { videos, categories } from '../data/videos';
+import { HeartFilled, HeartRegular } from '@fluentui/react-icons';
 
 const CategoryPage = ({ onMoreInfo, onToggleFav, isFavorite }) => {
   const [activeCategory, setActiveCategory] = useState('all');

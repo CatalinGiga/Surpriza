@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getFeaturedVideos } from '../data/videos';
+import { PlayFilled, InfoRegular } from '@fluentui/react-icons';
 
 const HeroBanner = ({ onPlay, onMoreInfo }) => {
   const featured = getFeaturedVideos();
@@ -37,13 +38,13 @@ const HeroBanner = ({ onPlay, onMoreInfo }) => {
             className="btn-netflix btn-netflix--play"
             onClick={() => onPlay(video)}
           >
-            <span className="btn-icon">▶</span> Play
+            <PlayFilled fontSize={20} /> Play
           </button>
           <button
             className="btn-netflix btn-netflix--info"
             onClick={() => onMoreInfo(video)}
           >
-            <span className="btn-icon">ℹ</span> More Info
+            <InfoRegular fontSize={20} /> More Info
           </button>
         </div>
       </div>

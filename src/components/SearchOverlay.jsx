@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { searchVideos } from '../data/videos';
+import { DismissRegular, SearchRegular, VideoRegular } from '@fluentui/react-icons';
 
 const SearchOverlay = ({ onClose, onPlay, onMoreInfo }) => {
   const [query, setQuery] = useState('');
@@ -36,7 +37,7 @@ const SearchOverlay = ({ onClose, onPlay, onMoreInfo }) => {
           onChange={(e) => setQuery(e.target.value)}
           autoFocus
         />
-        <button className="search-overlay__close" onClick={onClose}>✕</button>
+        <button className="search-overlay__close" onClick={onClose}><DismissRegular fontSize={22} /></button>
       </div>
 
       {query.trim() ? (
@@ -67,7 +68,7 @@ const SearchOverlay = ({ onClose, onPlay, onMoreInfo }) => {
           </div>
         ) : (
           <div className="search-overlay__empty">
-            <div className="search-overlay__empty-icon">🔍</div>
+            <div className="search-overlay__empty-icon"><SearchRegular fontSize={48} /></div>
             <div className="search-overlay__empty-text">
               No results for "{query}"
             </div>
@@ -75,7 +76,7 @@ const SearchOverlay = ({ onClose, onPlay, onMoreInfo }) => {
         )
       ) : (
         <div className="search-overlay__empty">
-          <div className="search-overlay__empty-icon">🎬</div>
+          <div className="search-overlay__empty-icon"><VideoRegular fontSize={48} /></div>
           <div className="search-overlay__empty-text">
             Start typing to search your memories...
           </div>

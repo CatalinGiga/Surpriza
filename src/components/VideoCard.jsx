@@ -1,4 +1,10 @@
 import React from 'react';
+import {
+  PlayFilled,
+  HeartFilled,
+  HeartRegular,
+  ChevronDownRegular,
+} from '@fluentui/react-icons';
 
 const VideoCard = ({ video, onPlay, onMoreInfo, onToggleFav, isFavorite, progress }) => {
   const progressPercent = progress?.progress ? Math.min(progress.progress * 100, 100) : 0;
@@ -34,14 +40,14 @@ const VideoCard = ({ video, onPlay, onMoreInfo, onToggleFav, isFavorite, progres
               onClick={(e) => { e.stopPropagation(); onPlay(video); }}
               title="Play"
             >
-              ▶
+              <PlayFilled fontSize={14} />
             </button>
             <button
               className={`video-card__info-btn ${isFavorite ? 'video-card__info-btn--liked' : ''}`}
               onClick={(e) => { e.stopPropagation(); onToggleFav(video.id); }}
               title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
             >
-              {isFavorite ? '❤️' : '🤍'}
+              {isFavorite ? <HeartFilled fontSize={14} /> : <HeartRegular fontSize={14} />}
             </button>
             <button
               className="video-card__info-btn"
@@ -49,7 +55,7 @@ const VideoCard = ({ video, onPlay, onMoreInfo, onToggleFav, isFavorite, progres
               title="More info"
               style={{ marginLeft: 'auto' }}
             >
-              ⌄
+              <ChevronDownRegular fontSize={14} />
             </button>
           </div>
 
