@@ -1,0 +1,90 @@
+/* ═══════════════════════════════════════════════════════════
+   SUFLETFLIX — Netflix 2019 "N" Style Intro (4s)
+   
+   Phase 1 (0–2.5s): 3D ribbon "S" zooms out from close-up
+   Phase 2 (2.2–3.5s): S shrinks, "SUFLETFLIX" fades in
+   Phase 3 (3.3–4.0s): Everything fades to black
+   ═══════════════════════════════════════════════════════════ */
+
+/* Container */
+.netflix-intro {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+  animation: screenOut 0.6s ease-in 3.4s forwards;
+}
+
+@keyframes screenOut {
+  to { opacity: 0; }
+}
+
+/* ── Phase 1: The Ribbon "S" ──────────────────────────── */
+.nf-ribbon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: ribbonZoom 2.6s cubic-bezier(0.22, 0.61, 0.36, 1) 0.2s both,
+             ribbonExit 0.6s ease-in 2.2s forwards;
+}
+
+/* Start at scale 8 (zoomed into S), pull back to 1 */
+@keyframes ribbonZoom {
+  0% {
+    opacity: 0;
+    transform: scale(8);
+  }
+  6% {
+    opacity: 1;
+    transform: scale(8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Shrink and fade as text takes over */
+@keyframes ribbonExit {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+.nf-ribbon__svg {
+  width: clamp(120px, 30vw, 220px);
+  height: auto;
+}
+
+/* ── Phase 2: "SUFLETFLIX" text ────────────────────────── */
+.nf-text {
+  position: absolute;
+  font-family: 'Bebas Neue', 'Impact', sans-serif;
+  font-size: clamp(2.5rem, 10vw, 6rem);
+  color: #E50914;
+  letter-spacing: 6px;
+  font-weight: 400;
+  white-space: nowrap;
+  user-select: none;
+  opacity: 0;
+  transform: scale(0.95);
+  animation: textIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.5s forwards;
+  text-shadow: 0 0 40px rgba(229, 9, 20, 0.3);
+}
+
+@keyframes textIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
