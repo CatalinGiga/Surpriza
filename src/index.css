@@ -86,7 +86,8 @@ input,textarea{font-family:inherit}
 .navbar--transparent{background:linear-gradient(to bottom,rgba(0,0,0,.7) 10%,transparent)}
 .navbar--solid{background-color:var(--sf-bg)}
 .navbar__left{display:flex;align-items:center;gap:2.5rem}
-.navbar__logo{font-family:var(--font-logo);font-size:2rem;color:var(--sf-red);letter-spacing:3px;cursor:pointer;user-select:none}
+.navbar__logo{display:flex;align-items:center;cursor:pointer;user-select:none}
+.navbar__logo-img{height:28px;width:auto;object-fit:contain}
 .navbar__links{display:flex;align-items:center;gap:1.25rem}
 .navbar__link{color:var(--sf-text);font-size:.875rem;font-weight:400;transition:color var(--transition-fast);white-space:nowrap;position:relative;padding:4px 0}
 .navbar__link:hover,.navbar__link--active{color:var(--sf-white);font-weight:600}

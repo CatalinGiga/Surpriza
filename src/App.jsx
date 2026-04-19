@@ -154,8 +154,12 @@ function App() {
           </svg>
         </div>
 
-        {/* Phase 2: Full "SUFLETFLIX" text */}
-        <div className="nf-text">SUFLETFLIX</div>
+        {/* Phase 2: Full "SUFLETFLIX" logo image */}
+        <img
+          className="nf-text"
+          src={`${import.meta.env.BASE_URL}Sufletflix.png`}
+          alt="Sufletflix"
+        />
 
       </div>
     );

@@ -23,7 +23,9 @@ const Navbar = ({ onSearchOpen }) => {
   return (
     <nav className={`navbar ${scrolled ? 'navbar--solid' : 'navbar--transparent'}`}>
       <div className="navbar__left">
-        <Link to="/" className="navbar__logo">SUFLETFLIX</Link>
+        <Link to="/" className="navbar__logo">
+          <img src={`${import.meta.env.BASE_URL}Sufletflix.png`} alt="Sufletflix" className="navbar__logo-img" />
+        </Link>
 
         <button
           className="navbar__mobile-toggle"

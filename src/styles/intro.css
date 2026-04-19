@@ -66,20 +66,17 @@
   height: auto;
 }
 
-/* ── Phase 2: "SUFLETFLIX" text ────────────────────────── */
+/* ── Phase 2: Logo image ──────────────────────────────── */
 .nf-text {
   position: absolute;
-  font-family: 'Bebas Neue', 'Impact', sans-serif;
-  font-size: clamp(2.5rem, 10vw, 6rem);
-  color: #E50914;
-  letter-spacing: 6px;
-  font-weight: 400;
-  white-space: nowrap;
+  width: clamp(200px, 45vw, 500px);
+  height: auto;
+  object-fit: contain;
   user-select: none;
   opacity: 0;
   transform: scale(0.95);
   animation: textIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.5s forwards;
-  text-shadow: 0 0 40px rgba(229, 9, 20, 0.3);
+  filter: drop-shadow(0 0 30px rgba(229, 9, 20, 0.25));
 }
 
 @keyframes textIn {
