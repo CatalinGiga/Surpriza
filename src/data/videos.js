@@ -26,6 +26,18 @@ export const videos = [
     duration: "0:23",
     tags: ["revelion", "milestone", "2025"],
     featured: true
+  },
+  {
+    id: 3,
+    title: "La mulți ani, iubirea mea! 🎂💖",
+    description: "Încă un an alături de tine, și încă un colaj cu tot ce am trăit împreună. Love you always, my love! 💖",
+    thumbnail: `${base}thumbnails/lmaDeniii2026.png`,
+    videoUrl: `${base}videos/ZiNastereDeniii2026.mp4`,
+    category: "Milestones",
+    date: "2026-09-19",
+    duration: "0:18",
+    tags: ["birthday", "milestone", "2026"],
+    featured: true
   }
 ];
 
